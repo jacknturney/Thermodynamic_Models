@@ -1,0 +1,43 @@
+
+SPECIATION
+  calculationType                      ht1
+  calculationMethod                    1
+  database                             LLNLPYRRMINTEQ.DAT
+  mainSpecies                          S
+  xmin                                 2.0
+  xmax                                 12.0
+  ymin                                 -90.0
+  ymax                                 0.0
+  resolution                           1500
+  jpg                                  T
+
+PLOT
+  xtitle                               pH
+  ytitle                               "Eh (V)"
+  yscale                               Eh        # this makes the y-axis 'Eh' rather than log f O2(g)
+  labelsize                            0.0
+# nudge plotnumber labelnumber label diff/abs x y [angle pos]
+  nudge                                1 auto "O2(g) > 0.21 atm" diff 0 0 : 1 auto "H2(g) > 1 atm" diff 0 -1.5
+
+CHEMISTRY
+
+include ht1.inc                                            # standard 'hunt and track' file
+
+SOLUTION 1
+   temp      25
+   pH        1.3
+   units     mol/kgw
+   S        1e-3                                           # total S
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+   Fix_H+     -<x_axis> NaOH 10                             # <x_axis> is pH so reverse sign
+    -force_equality true
+   O2(g)      <y_axis>  0.1
+
+ Sulfur   0  0
+  
+END
+
+ 

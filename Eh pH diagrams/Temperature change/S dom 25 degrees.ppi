@@ -1,0 +1,61 @@
+SPECIATION
+  JobTitle                             "Test"
+  calculationType                      ht1       # hunt & track method - could also use 'grid' approach
+  calculationMethod                    1
+  database                             LLNLPYRRMINTEQ.DAT
+  mainSpecies                          Fe
+  resolution                           1200
+  xmin                                 2.0       # this determines the scope of the x-axis variable
+  xmax                                 12.0      # ibid
+  ymin                                 -120.0     # this determines the scope of the y-axis variable
+  ymax                                 30.0       # ibid
+  png                                  T
+
+
+PLOT
+  plotTitle                            "S dominant 25 degrees"
+  labelSize                            0.0                           # no labels on plot
+  xtitle                               "pH"
+  ytitle                               "Eh (V)"
+  yscale                               Eh        # this makes the y-axis 'Eh' rather than log f O2(g)
+# nudge measures shift in labels in terms of the units of distance in force - here assumes the default, i.e. mm
+# nudge plotnumber labelnumber label diff/abs x y [angle pos]
+  nudge                                1 auto "O2(g) > 0.21 atm" diff 0 0 : 1 auto "H2(g) > 1 atm" diff 0 -1.5
+
+CHEMISTRY
+
+include 'ht1.inc'                      # this pulls in the special hunt and track code from the system directory
+
+PHASES
+Fe(OH)3(a)
+	Fe(OH)3 + 3 H+ = Fe+3 + 3 H2O
+	-log_k	4.891
+
+SOLUTION 1
+   temp      25
+   pH        1.8                       # starting with a low pH ensures that the entire pH range from 2-12
+   units     mol/kgw                  # can be reached by titration with NaOH
+   Fe(2)     1e-2
+   S(-2)     1.5e-2
+
+
+SAVE solution 1
+END
+
+# second simulation - by default, loops on the last simulation only
+USE solution 1
+EQUILIBRIUM_PHASES 1
+   Fix_H+ -<x_axis> NaOH 10
+     -force_equality true
+   O2(g)  <y_axis>  0.1
+   Fe(OH)3(a)  0 0
+
+ Greigite -9 0
+ Siderite 0 0
+ Pyrrhotite 0 0
+ Pyrite +2 0
+ Mackinawite 0 0
+ Goethite 0 0
+ Hematite 0 0
+END             
+        

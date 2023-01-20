@@ -1,0 +1,45 @@
+
+SPECIATION
+  calculationType                      ht1
+  calculationMethod                    1
+  database                             LLNLPYRRMINTEQ.DAT
+  mainSpecies                          Fe
+  xmin                                 2.0
+  xmax                                 12.0
+  ymin                                 -90.0
+  ymax                                 0.0
+  resolution                           1500
+  png                                  T
+  jpg                                  T
+
+PLOT
+  plotTitle                            "Fe species phase diagram"
+  labelsize                            0.0
+  xtitle                               pH
+  ytitle                               "Eh (V)"
+  yscale                               Eh        # this makes the y-axis 'Eh' rather than log f O2(g)
+
+
+CHEMISTRY
+
+include ht1.inc                                            # standard 'hunt and track' file
+
+SOLUTION 1
+   temp      25
+   pH    1.3
+   units     mol/kgw                                          # total Fe
+  Fe        1e-6
+END
+
+USE solution 1
+EQUILIBRIUM_PHASES 1
+   Fix_H+     -<x_axis> NaOH                               # <x_axis> is pH so reverse sign
+    -force_equality true
+   O2(g)      <y_axis>  0.1
+
+ Sulfur   0  0
+    
+
+END
+
+ 
