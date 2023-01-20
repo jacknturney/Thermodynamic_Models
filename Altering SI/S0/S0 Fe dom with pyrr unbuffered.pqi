@@ -1,0 +1,80 @@
+DATABASE C:\Users\jt2020\OneDrive - Imperial College London\Data\Thermodynamics\Thermodynamics\Phreeq\Reaction Progress\All models with pyrrhotite\Database\llnlpyrrminteq.dat
+TITLE S0 pH 2
+SOLUTION 1  PURE WATER
+            pH    2 charge
+          temp   25.0
+           pe     2.95
+PHASES
+       pH_fix
+                H + = H +
+                log_k = 0.0
+       pe_fix
+                e- = e-
+                log_k 0.0
+Sulfur
+    S + 2H+ + 2e- = H2S
+    log_k     4.843
+    delta_h   -9.23 kcal
+Pyrrhotite
+    FeS + 2Fe+3 = 3Fe+2 + Sulfur(s)   #reaction from Belzile et al 04 pyrr oxidation reaction
+    log_k     24.9953
+    delta_h        -17.9906 kcal      
+Mackinawite
+    FeS + H+ = Fe+2 + HS-
+    log_k     -2.137
+    delta_h   -3.578 kcal
+Greigite
+    Fe3S4 = 3Mackinawite(s) + Sulfur(s)
+    log_k     -6.476
+    delta_h   37.637 kcal
+Pyrite
+    FeS2 = 0.3333333333Greigite(s) + 0.6666666666Sulfur(s)
+    log_k     -10.373
+    delta_h   7.061 kcal
+NaNO3
+    NaNO3 = Na+ + NO3-
+    log_K -20
+NaCl
+    NaCl = Cl- + Na+
+    log_k     -20
+END
+INCREMENTAL_REACTIONS
+REACTION
+Fe3S1 1
+10*1e-12 10*1e-11 10*1e-10 10*1e-9 10*1e-8 10*1e-7 10*1e-6 10*1e-5 10*1e-4  10*1e-3  10*1e-2 mol
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Mackinawite     1.0     0.0 
+        Greigite        -4.0     0.0
+        Pyrite          1.0     0.0
+        Pyrrhotite      2.0     0.0
+        
+USER_GRAPH 1 Simulation 6
+    -headings               Pyrite Greigite Mackinawite Pyrrhotite
+    -axis_titles            "Fe and S added, Log moles" "Mineral, moles"
+    -chart_title            "Iron dominant system with S0 as the oxidant"
+    -axis_scale sy_axis     auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    false
+    -axis_scale y_axis      auto auto auto auto Log
+    -axis_scale sy_axis	    auto auto auto auto Log
+    -plot_concentration_vs  x
+  -start
+ 5 PUT(GET(1) + RXN, 1)
+  20 PLOT_XY log10(GET(1)), EQUI("Pyrite") color = Green, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  30 PLOT_XY log10(GET(1)), EQUI("Greigite") color = Blue, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  40 PLOT_XY log10(GET(1)), EQUI("Mackinawite") color = Cyan, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  50 PLOT_XY log10(GET(1)), EQUI("Pyrrhotite") color = Red, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  -end
+    -active                 true
+SELECTED_OUTPUT
+    -file                 S0 Fe dom with pyrr unbuffered SI alteration.csv
+    -saturation_indices   Mackinawite  Greigite  Pyrite Pyrrhotite
+    -reaction             
+    -totals               Fe S 
+    -equilibrium_phases   Mackinawite  Greigite  Pyrite Pyrrhotite
+END
