@@ -1,0 +1,171 @@
+DATABASE C:\Users\jt2020\OneDrive - Imperial College London\Data\Thermodynamics\Thermodynamics\Phreeq\Reaction Progress\All models with pyrrhotite\Database\llnlpyrrminteqpoly.dat
+TITLE Poly Sn2- buffered
+SOLUTION 1  PURE WATER
+            pH    10.0 charge
+          temp   25
+            pe    -9.29
+PHASES
+pH_fix
+      H + = H +
+      log_k = 0.0
+pe_fix
+      e- = e-
+      log_k 0.0
+Sulfur
+      S + 2e- = S-2
+      log_k           -15.026
+      delta_h 7.9 kcal
+
+Mackinawite
+    FeS + H+ = Fe+2 + HS-
+    log_k     -2.137
+    delta_h   -3.578 kcal
+    
+Greigite
+    Fe3S4 + S5-2 = 3Mackinawite(s) + S6-2   
+    log_k     -6.721
+    delta_h   38.521 kcal
+
+Pyrite
+    FeS2 + 0.33333333333333S3-2 = 0.3333333333333Greigite(s) + 0.3333333333333S5-2
+    log_k     -10.075
+    delta_h   7.3 kcal
+
+Pyrrhotite
+    FeS + H+ = Fe+2 + HS-    
+    log_k     -3.24554
+    delta_h    -2.64564 kcal 
+NaNO3
+    NaNO3 = Na+ + NO3-
+    log_K -20
+NaCl
+    NaCl = Cl- + Na+
+    log_k     -20
+END
+INCREMENTAL_REACTIONS
+REACTION
+Fe1S3 1
+10*1e-12 10*1e-11 10*1e-10 10*1e-9 10*1e-8 10*1e-7 10*1e-6 10*1e-5 10*1e-4  10*1e-3  10*1e-2 mol
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Mackinawite     0.0     0.0 
+        Greigite        0.0     0.0
+        Pyrite          0.0     0.0
+        Pyrrhotite      0.0     0.0
+        NaNO3           0.0     0.0002
+        pH_fix          -10      HCl       10   
+        pe_fix          9.29    O2(g)     10       #-550mV
+       
+USER_GRAPH 1 Simulation 
+    -headings               Pyrite Greigite Mackinawite Pyrrhotite
+    -axis_titles            "Fe and S added, Log moles" "Mineral, moles"
+    -chart_title            "Pyrite pathway in a sulphur dominant system with Polysulfides as the oxidant"
+    -axis_scale sy_axis     auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    false
+    -axis_scale y_axis      auto auto auto auto Log
+    -axis_scale sy_axis	    auto auto auto auto Log
+    -plot_concentration_vs  x
+  -start
+ 5 PUT(GET(1) + RXN, 1)
+  20 PLOT_XY log10(GET(1)), EQUI("Pyrite") color = Green, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  30 PLOT_XY log10(GET(1)), EQUI("Greigite") color = Blue, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  40 PLOT_XY log10(GET(1)), EQUI("Mackinawite") color = Cyan, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  50 PLOT_XY log10(GET(1)), EQUI("Pyrrhotite") color = Red, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  -end
+    -active                 true
+SELECTED_OUTPUT
+    -file                 poly S dom buffered.csv
+    -saturation_indices   Mackinawite  Greigite  Pyrite Pyrrhotite
+    -reaction             
+    -totals               Fe S 
+    -equilibrium_phases   Mackinawite  Greigite  Pyrite Pyrrhotite
+END
+SOLUTION 1  PURE WATER
+            pH    10.0 charge
+          temp   25
+            pe    -9.29
+PHASES
+pH_fix
+      H + = H +
+      log_k = 0.0
+pe_fix
+      e- = e-
+      log_k 0.0
+Sulfur
+      S + 2e- = S-2
+      log_k           -15.026
+      delta_h 7.9 kcal
+Mackinawite
+    FeS + H+ = Fe+2 + HS-
+    log_k     -2.137
+    delta_h   -3.578 kcal
+    
+Greigite
+    Fe3S4 + S5-2 = 3Mackinawite(s) + S6-2   
+    log_k     -6.721
+    delta_h   38.521 kcal
+        -no_check
+Pyrite
+    FeS2 + 0.33333333333333S3-2 = 0.3333333333333Greigite(s) + 0.3333333333333S5-2
+    log_k     -10.075
+    delta_h   7.3 kcal
+        -no_check
+Pyrrhotite
+    FeS + H+ = Fe+2 + HS-   
+    log_k     -3.24554
+    delta_h    -2.64564 kcal  
+NaNO3
+    NaNO3 = Na+ + NO3-
+    log_K -20
+NaCl
+    NaCl = Cl- + Na+
+    log_k     -20
+END
+INCREMENTAL_REACTIONS
+REACTION
+Fe3S1 1
+10*1e-12 10*1e-11 10*1e-10 10*1e-9 10*1e-8 10*1e-7 10*1e-6 10*1e-5 10*1e-4  10*1e-3  10*1e-2 mol
+USE solution 1
+EQUILIBRIUM_PHASES 1
+        Mackinawite     0.0     0.0 
+        Greigite        0.0     0.0
+        Pyrite          0.0     0.0
+        Pyrrhotite      0.0     0.0
+        NaNO3           0.0     0.0002
+        pH_fix          -10     HCl      10   
+        pe_fix          9.29    O2(g)     10       #-550mV
+       
+USER_GRAPH 1 Simulation 6
+    -headings               Pyrite Greigite Mackinawite Pyrrhotite
+    -axis_titles            "Fe and S added, Log moles" "Mineral, moles"
+    -chart_title            "Pyrite pathway in an iron dominant system with Polysulfides as the oxidant"
+    -axis_scale sy_axis     auto auto auto auto log
+    -initial_solutions      false
+    -connect_simulations    false
+    -axis_scale y_axis      auto auto auto auto Log
+    -axis_scale sy_axis	    auto auto auto auto Log
+    -plot_concentration_vs  x
+  -start
+ 5 PUT(GET(1) + RXN, 1)
+  20 PLOT_XY log10(GET(1)), EQUI("Pyrite") color = Green, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  30 PLOT_XY log10(GET(1)), EQUI("Greigite") color = Blue, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  40 PLOT_XY log10(GET(1)), EQUI("Mackinawite") color = Cyan, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  50 PLOT_XY log10(GET(1)), EQUI("Pyrrhotite") color = Red, line_w = 0, \
+  	symbol = Plus, symbol_size = 5, y_axis = 2
+  -end
+    -active                 true
+SELECTED_OUTPUT
+    -file                 poly Fe dom buffered.csv
+    -saturation_indices   Mackinawite  Greigite  Pyrite Pyrrhotite
+    -reaction             
+    -totals               Fe S 
+    -equilibrium_phases   Mackinawite  Greigite  Pyrite Pyrrhotite
+END
